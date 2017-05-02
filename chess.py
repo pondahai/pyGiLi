@@ -5,6 +5,7 @@ import os
 from sys import exit
 from random import *
 
+# I using the UTF-8 symbols to build the board
 board = ["╔═╤═╤═╤═╤═╤═╤═╤═╗",
          "║  │  │  │╲│╱│  │  │  ║",
          "╟─┼─┼─┼─┼─┼─┼─┼─╢",
@@ -25,6 +26,8 @@ board = ["╔═╤═╤═╤═╤═╤═╤═╤═╗",
          "║  │  │  │╱│╲│  │  │  ║",
          "╚═╧═╧═╧═╧═╧═╧═╧═╝",]
 
+# using list to store the pieces
+# define : NAME,COORDINATE,COLOR
 piecesBlack=[['將',(4,0),(0,0,0)],['士',(3,0),(0,0,0)],['士',(5,0),(0,0,0)],
         ['象',(2,0),(0,0,0)],['象',(6,0),(0,0,0)],
         ['馬',(1,0),(0,0,0)],['馬',(7,0),(0,0,0)],
@@ -43,6 +46,7 @@ piecesRed=[['帥',(4,9),(255,0,0)],['仕',(3,9),(255,0,0)],['仕',(5,9),(255,0,0
 #GREEN = (0, 255, 0)
 #RED = ( 255, 0, 0)
 
+# pygame for UI. keyboard and screen
 pygame.init()
 size = (700, 500)
 screen = pygame.display.set_mode(size)
@@ -52,6 +56,8 @@ pygame.display.set_caption('奕棋子')
 
 print (platform.system())
 
+# different font in different platform
+# the font must be monospaced and symbols included
 fontSize=28
 #myfont = pygame.font.Font(os.environ['SYSTEMROOT'] + "\\Fonts\\KAIU.TTF", fontSize)
 if platform.system() == 'Linux':
@@ -74,6 +80,7 @@ textsurface = myfont.render('112', True, (255,0,0))
 screen.blit(textsurface,(112,0))
 '''
 
+# function for draw the board
 def plotBoard():
     pygame.draw.circle(screen,(255,225,128),(600+fontSize,fontSize),22,0)
     pygame.draw.circle(screen,(0,0,0),(600+fontSize,fontSize),20,1)
@@ -103,11 +110,13 @@ def plotBoard():
         textsurface = myfont.render(piece[0], True, piece[2])
         screen.blit(textsurface,(newX-fontSize/2,newY-fontSize/2))
 
+# variables for keep the postion of cursor
 cursorX = 0
 cursorY = 0
 
-pygame.display.update()
+#pygame.display.update()
 
+# funciton for draw the cursor
 def plotCursor():
     textsurface = myfont.render('┌', True, (255,0,0))
     screen.blit(textsurface,(int(cursorX * fontSize * 2   ) ,int(cursorY * fontSize * 2  )))
@@ -118,6 +127,7 @@ def plotCursor():
     textsurface = myfont.render('┐', True, (255,0,0))
     screen.blit(textsurface,(int(cursorX * fontSize * 2 + fontSize + fontSize  ) ,int(cursorY * fontSize * 2  )))
 
+# funciton for draw the candidate path mark
 def plotCandidate(x,y):
     textsurface = myfont.render('┌', True, (0,255,0))
     screen.blit(textsurface,(int(x * fontSize * 2   ) ,int(y * fontSize * 2  )))
@@ -127,7 +137,8 @@ def plotCandidate(x,y):
     screen.blit(textsurface,(int(x * fontSize * 2 + fontSize + fontSize  ) ,int(y * fontSize * 2 + fontSize + fontSize )))
     textsurface = myfont.render('┐', True, (0,255,0))
     screen.blit(textsurface,(int(x * fontSize * 2 + fontSize + fontSize  ) ,int(y * fontSize * 2  )))
-    
+
+# funciton for draw the attack position mark  
 def plotAttack(x,y):
     textsurface = myfont.render('┌', True, (255,255,0))
     screen.blit(textsurface,(int(x * fontSize * 2   ) ,int(y * fontSize * 2  )))
@@ -140,20 +151,27 @@ def plotAttack(x,y):
 
 plotBoard()
 plotCursor()
-print(piecesBlack,piecesRed)
+#print(piecesBlack,piecesRed)
+
+# funciton for compare the given postion and piece in the list
+# input : postion to collection detect
+# for black side
 def collectionDetectBlack(x,y):
     for piece in piecesBlack:
         #print(piece[1],(x,y))
         if piece[1] == (x,y):
             return (x,y)
     return False
+
+# for red side
 def collectionDetectRed(x,y):
     for piece in piecesRed:
         #print(piece[1],(x,y))
         if piece[1] == (x,y):
             return (x,y)
     return False
-    
+
+# for all pieces
 def collectionDetect(x,y):
     for piece in piecesBlack:
         #print(piece[1],(x,y))
@@ -164,6 +182,9 @@ def collectionDetect(x,y):
         if piece[1] == (x,y):
             return (x,y)
     return False
+
+# find all possibility of piece move
+# return : all cordinate of possibility
 def findRoads(piece):
     candidateArray = []
     pieceX = piece[1][0]
@@ -416,6 +437,8 @@ def findRoads(piece):
             candidateArray.append([scanX,pieceY])
     return candidateArray
 
+# find all possibility for piece attack
+# return : all cordinate of possibility
 def findAttacks(piece):
     candidateArray = []
     pieceX = piece[1][0]
@@ -854,7 +877,9 @@ def findAttacks(piece):
                         break
                 break
     return candidateArray
-        
+
+# find both moving and attack
+# return : [MOVE COORDINATE ARRAY,ATTACK COORDINATE ARRAY]
 def checkPath():
     result=[]
     for piece in piecesBlack:
@@ -868,9 +893,11 @@ def checkPath():
             result.append(findAttacks(piece))
             print (piece[0])
     return result
+
 pieceTake = -1
 loopMain=True
 result=[]
+# MAIN LOOP
 while loopMain:
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -895,6 +922,11 @@ while loopMain:
                 print ("right")
             elif event.key == pygame.K_RETURN:
                 if pieceTake == -1:
+                    # first ENTER pressed
+                    # pick up the piece if exist
+                    # run rules and return list
+                    # result[0] : move list
+                    # result[1] : attack list
                     result=checkPath()
                     for piece in piecesBlack:
                         if piece[1][0] == cursorX and piece[1][1] == cursorY:
@@ -905,6 +937,10 @@ while loopMain:
                             pieceTake = piece
                             break
                 else:
+                    # second ENTER pressed
+                    # move and attack in the different list
+                    # result[0] : move list
+                    # result[1] : attack list
                     # move, just move
                     if [cursorX,cursorY] in result[0]:
                         movePiece = [pieceTake[0],(cursorX,cursorY),pieceTake[2]]
@@ -952,7 +988,7 @@ while loopMain:
             plotCursor()
             
     pygame.display.update()
-
+# MAIN LOOP END
         
 #for x in range(0,200):
 #    print (x+0x2500,chr(x+0x2500),"xx") 
