@@ -4,6 +4,8 @@ from pygame.locals import *
 import os
 from sys import exit
 from random import *
+import random
+import time
 
 # I using the UTF-8 symbols to build the board
 board = ["╔═╤═╤═╤═╤═╤═╤═╤═╗",
@@ -110,22 +112,18 @@ def plotBoard():
         textsurface = myfont.render(piece[0], True, piece[2])
         screen.blit(textsurface,(newX-fontSize/2,newY-fontSize/2))
 
-# variables for keep the postion of cursor
-cursorX = 0
-cursorY = 0
-
 #pygame.display.update()
 
 # funciton for draw the cursor
-def plotCursor():
+def plotCursor(x,y):
     textsurface = myfont.render('┌', True, (255,0,0))
-    screen.blit(textsurface,(int(cursorX * fontSize * 2   ) ,int(cursorY * fontSize * 2  )))
+    screen.blit(textsurface,(int(x * fontSize * 2   ) ,int(y * fontSize * 2  )))
     textsurface = myfont.render('└', True, (255,0,0))
-    screen.blit(textsurface,(int(cursorX * fontSize * 2   ) ,int(cursorY * fontSize * 2 + fontSize + fontSize )))
+    screen.blit(textsurface,(int(x * fontSize * 2   ) ,int(y * fontSize * 2 + fontSize + fontSize )))
     textsurface = myfont.render('┘', True, (255,0,0))
-    screen.blit(textsurface,(int(cursorX * fontSize * 2 + fontSize + fontSize  ) ,int(cursorY * fontSize * 2 + fontSize + fontSize )))
+    screen.blit(textsurface,(int(x * fontSize * 2 + fontSize + fontSize  ) ,int(y * fontSize * 2 + fontSize + fontSize )))
     textsurface = myfont.render('┐', True, (255,0,0))
-    screen.blit(textsurface,(int(cursorX * fontSize * 2 + fontSize + fontSize  ) ,int(cursorY * fontSize * 2  )))
+    screen.blit(textsurface,(int(x * fontSize * 2 + fontSize + fontSize  ) ,int(y * fontSize * 2  )))
 
 # funciton for draw the candidate path mark
 def plotCandidate(x,y):
@@ -150,7 +148,7 @@ def plotAttack(x,y):
     screen.blit(textsurface,(int(x * fontSize * 2 + fontSize + fontSize  ) ,int(y * fontSize * 2  )))
 
 plotBoard()
-plotCursor()
+plotCursor(0,0)
 #print(piecesBlack,piecesRed)
 
 # funciton for compare the given postion and piece in the list
@@ -193,186 +191,186 @@ def findRoads(piece):
     if piece[0] == '將':
         if pieceY-1 >=0:
             if not collectionDetect(pieceX,pieceY-1):
-                plotCandidate(pieceX,pieceY-1)
+                #plotCandidate(pieceX,pieceY-1)
                 candidateArray.append([pieceX,pieceY-1])
         if pieceY+1 <=2:
             if not collectionDetect(pieceX,pieceY+1):
-                plotCandidate(pieceX,pieceY+1)
+                #plotCandidate(pieceX,pieceY+1)
                 candidateArray.append([pieceX,pieceY+1])
         if pieceX-1 >=3:
             if not collectionDetect(pieceX-1,pieceY):
-                plotCandidate(pieceX+1,pieceY)
+                #plotCandidate(pieceX+1,pieceY)
                 candidateArray.append([pieceX-1,pieceY])
         if pieceX+1 <=5:
             if not collectionDetect(pieceX+1,pieceY):
-                plotCandidate(pieceX+1,pieceY)
+                #plotCandidate(pieceX+1,pieceY)
                 candidateArray.append([pieceX+1,pieceY])
     if piece[0] == '帥':
         if pieceY-1 >=7:
             if not collectionDetect(pieceX,pieceY-1):
-                plotCandidate(pieceX,pieceY-1)
+                #plotCandidate(pieceX,pieceY-1)
                 candidateArray.append([pieceX,pieceY-1])
         if pieceY+1 <=9:
             if not collectionDetect(pieceX,pieceY+1):
-                plotCandidate(pieceX,pieceY+1)
+                #plotCandidate(pieceX,pieceY+1)
                 candidateArray.append([pieceX,pieceY+1])
         if pieceX-1 >=3:
             if not collectionDetect(pieceX-1,pieceY):
-                plotCandidate(pieceX-1,pieceY)
+                #plotCandidate(pieceX-1,pieceY)
                 candidateArray.append([pieceX-1,pieceY])
         if pieceX+1 <=5:
             if not collectionDetect(pieceX+1,pieceY):
-                plotCandidate(pieceX+1,pieceY)
+                #plotCandidate(pieceX+1,pieceY)
                 candidateArray.append([pieceX+1,pieceY])
     ####################
     if piece[0] == '士':
         if pieceX-1 >=3 and pieceY-1 >=0:
             if not collectionDetect(pieceX-1,pieceY-1):
-                plotCandidate(pieceX-1,pieceY-1)
+                #plotCandidate(pieceX-1,pieceY-1)
                 candidateArray.append([pieceX-1,pieceY-1])
         if pieceX-1 >=3 and pieceY+1 <=2:
             if not collectionDetect(pieceX-1,pieceY+1):
-                plotCandidate(pieceX-1,pieceY+1)
+                #plotCandidate(pieceX-1,pieceY+1)
                 candidateArray.append([pieceX-1,pieceY+1])
         if pieceX+1 <=5 and pieceY-1 >=0:
             if not collectionDetect(pieceX+1,pieceY-1):
-                plotCandidate(pieceX+1,pieceY-1)
+                #plotCandidate(pieceX+1,pieceY-1)
                 candidateArray.append([pieceX+1,pieceY-1])
         if pieceX+1 <=5 and pieceY+1 <=2:
             if not collectionDetect(pieceX+1,pieceY+1):
-                plotCandidate(pieceX+1,pieceY+1)
+                #plotCandidate(pieceX+1,pieceY+1)
                 candidateArray.append([pieceX+1,pieceY+1])
     if piece[0] == '仕':
         if pieceX-1 >=3 and pieceY-1 >=7:
             if not collectionDetect(pieceX-1,pieceY-1):
-                plotCandidate(pieceX-1,pieceY-1)
+                #plotCandidate(pieceX-1,pieceY-1)
                 candidateArray.append([pieceX-1,pieceY-1])
         if pieceX-1 >=3 and pieceY+1 <=9:
             if not collectionDetect(pieceX-1,pieceY+1):
-                plotCandidate(pieceX-1,pieceY+1)
+                #plotCandidate(pieceX-1,pieceY+1)
                 candidateArray.append([pieceX-1,pieceY+1])
         if pieceX+1 <=5 and pieceY-1 >=7:
             if not collectionDetect(pieceX+1,pieceY-1):
-                plotCandidate(pieceX+1,pieceY-1)
+                #plotCandidate(pieceX+1,pieceY-1)
                 candidateArray.append([pieceX+1,pieceY-1])
         if pieceX+1 <=5 and pieceY+1 <=9:
             if not collectionDetect(pieceX+1,pieceY+1):
-                plotCandidate(pieceX+1,pieceY+1)
+                #plotCandidate(pieceX+1,pieceY+1)
                 candidateArray.append([pieceX+1,pieceY+1])
     ####################
     if piece[0] == '象':
         if pieceX-2 >=0 and pieceY-2 >=0 and not collectionDetect(pieceX-1,pieceY-1):
             if not collectionDetect(pieceX-2,pieceY-2):
-                plotCandidate(pieceX-2,pieceY-2)
+                #plotCandidate(pieceX-2,pieceY-2)
                 candidateArray.append([pieceX-2,pieceY-2])
         if pieceX-2 >=0 and pieceY+2 <= 4 and not collectionDetect(pieceX-1,pieceY+1):
             if not collectionDetect(pieceX-2,pieceY+2):
-                plotCandidate(pieceX-2,pieceY+2)
+                #plotCandidate(pieceX-2,pieceY+2)
                 candidateArray.append([pieceX-2,pieceY+2])
         if pieceX+2 <=8 and pieceY-2 >=0 and not collectionDetect(pieceX+1,pieceY-1):
             if not collectionDetect(pieceX+2,pieceY-2):
-                plotCandidate(pieceX+2,pieceY-2)
+                #plotCandidate(pieceX+2,pieceY-2)
                 candidateArray.append([pieceX+2,pieceY-2])
         if pieceX+2 <=8 and pieceY+2 <= 4 and not collectionDetect(pieceX+1,pieceY+1):
             if not collectionDetect(pieceX+2,pieceY+2):
-                plotCandidate(pieceX+2,pieceY+2)
+                #plotCandidate(pieceX+2,pieceY+2)
                 candidateArray.append([pieceX+2,pieceY+2])
     if piece[0] == '相':
         if pieceX-2 >=0 and pieceY-2 >=5 and not collectionDetect(pieceX-1,pieceY-1):
             if not collectionDetect(pieceX-2,pieceY-2):
-                plotCandidate(pieceX-2,pieceY-2)
+                #plotCandidate(pieceX-2,pieceY-2)
                 candidateArray.append([pieceX-2,pieceY-2])
         if pieceX-2 >=0 and pieceY+2 <= 9 and not collectionDetect(pieceX-1,pieceY+1):
             if not collectionDetect(pieceX-2,pieceY+2):
-                plotCandidate(pieceX-2,pieceY+2)
+                #plotCandidate(pieceX-2,pieceY+2)
                 candidateArray.append([pieceX-2,pieceY+2])
         if pieceX+2 <=8 and pieceY-2 >=5 and not collectionDetect(pieceX+1,pieceY-1):
             if not collectionDetect(pieceX+2,pieceY-2):
-                plotCandidate(pieceX+2,pieceY-2)
+                #plotCandidate(pieceX+2,pieceY-2)
                 candidateArray.append([pieceX+2,pieceY-2])
         if pieceX+2 <=8 and pieceY+2 <= 9 and not collectionDetect(pieceX+1,pieceY+1):
             if not collectionDetect(pieceX+2,pieceY+2):
-                plotCandidate(pieceX+2,pieceY+2)
+                #plotCandidate(pieceX+2,pieceY+2)
                 candidateArray.append([pieceX+2,pieceY+2])
     ####################
     if piece[0] == '卒':
         if pieceY <= 4:
             if not collectionDetect(pieceX,pieceY+1):
-                plotCandidate(pieceX,pieceY+1)
+                #plotCandidate(pieceX,pieceY+1)
                 candidateArray.append([pieceX,pieceY+1])
         else:
             if pieceY+1 <= 9 and not collectionDetect(pieceX,pieceY+1):
-                plotCandidate(pieceX,pieceY+1)
+                #plotCandidate(pieceX,pieceY+1)
                 candidateArray.append([pieceX,pieceY+1])
             if pieceX-1 >=0 and not collectionDetect(pieceX-1,pieceY):
-                plotCandidate(pieceX-1,pieceY)
+                #plotCandidate(pieceX-1,pieceY)
                 candidateArray.append([pieceX-1,pieceY])
             if pieceX+1 <=8 and not collectionDetect(pieceX+1,pieceY):
-                plotCandidate(pieceX+1,pieceY)
+                #plotCandidate(pieceX+1,pieceY)
                 candidateArray.append([pieceX+1,pieceY])
     if piece[0] == '兵':
         if pieceY >=5:
             if not collectionDetect(pieceX,pieceY-1):
-                plotCandidate(pieceX,pieceY-1)
+                #plotCandidate(pieceX,pieceY-1)
                 candidateArray.append([pieceX,pieceY-1])
         else:
             if pieceY-1 >0 and not collectionDetect(pieceX,pieceY-1):
-                plotCandidate(pieceX,pieceY-1)
+                #plotCandidate(pieceX,pieceY-1)
                 candidateArray.append([pieceX,pieceY-1])
             if pieceX-1 >=0 and not collectionDetect(pieceX-1,pieceY):
-                plotCandidate(pieceX-1,pieceY)
+                #plotCandidate(pieceX-1,pieceY)
                 candidateArray.append([pieceX-1,pieceY])
             if pieceX+1 <=8 and not collectionDetect(pieceX+1,pieceY):
-                plotCandidate(pieceX+1,pieceY)
+                #plotCandidate(pieceX+1,pieceY)
                 candidateArray.append([pieceX+1,pieceY])
     #########################################
     if piece[0] == '馬' or piece[0] == '傌' :
         #
         if pieceY-2 >= 0 and pieceX-1 >= 0 and not collectionDetect(pieceX,pieceY-1):
             if not collectionDetect(pieceX-1,pieceY-2):
-                plotCandidate(pieceX-1,pieceY-2)
+                #plotCandidate(pieceX-1,pieceY-2)
                 candidateArray.append([pieceX-1,pieceY-2])
         if pieceY-2 >= 0 and pieceX+1 < 9 and not collectionDetect(pieceX,pieceY-1):
             if not collectionDetect(pieceX+1,pieceY-2):
-                plotCandidate(pieceX+1,pieceY-2)
+                #plotCandidate(pieceX+1,pieceY-2)
                 candidateArray.append([pieceX+1,pieceY-2])
         #
         if pieceY+2 < 10 and pieceX-1 >= 0 and not collectionDetect(pieceX,pieceY+1):
             if not collectionDetect(pieceX-1,pieceY+2):
-                plotCandidate(pieceX-1,pieceY+2)
+                #plotCandidate(pieceX-1,pieceY+2)
                 candidateArray.append([pieceX-1,pieceY+2])
         if pieceY+2 < 10 and pieceX+1 < 9 and not collectionDetect(pieceX,pieceY+1):
             if not collectionDetect(pieceX+1,pieceY+2):
-                plotCandidate(pieceX+1,pieceY+2)
+                #plotCandidate(pieceX+1,pieceY+2)
                 candidateArray.append([pieceX+1,pieceY+2])
         #
         if pieceX-2 >= 0 and pieceY-1 >= 0 and not collectionDetect(pieceX-1,pieceY):
             if not collectionDetect(pieceX-2,pieceY-1):
-                plotCandidate(pieceX-2,pieceY-1)
+                #plotCandidate(pieceX-2,pieceY-1)
                 candidateArray.append([pieceX-2,pieceY-1])
         if pieceX-2 >= 0 and pieceY+1 < 10 and not collectionDetect(pieceX-1,pieceY):
             if not collectionDetect(pieceX-2,pieceY+1):
-                plotCandidate(pieceX-2,pieceY+1)
+                #plotCandidate(pieceX-2,pieceY+1)
                 candidateArray.append([pieceX-2,pieceY+1])
         #
         if pieceX+2 < 9 and pieceY-1 >= 0 and not collectionDetect(pieceX+1,pieceY):
             if not collectionDetect(pieceX+2,pieceY-1):
-                plotCandidate(pieceX+2,pieceY-1)
+                #plotCandidate(pieceX+2,pieceY-1)
                 candidateArray.append([pieceX+2,pieceY-1])
         if pieceX+2 < 9 and pieceY+1 < 10 and not collectionDetect(pieceX+1,pieceY):
             if not collectionDetect(pieceX+2,pieceY+1):
-                plotCandidate(pieceX+2,pieceY+1)
+                #plotCandidate(pieceX+2,pieceY+1)
                 candidateArray.append([pieceX+2,pieceY+1])
     #########################################
     if piece[0] == '車' or piece[0] == '俥' :
-        print (piece[1])
+        #print (piece[1])
         # up direction
         for scanY in range(pieceY-1,-1,-1):
             #print ("▲",scanY)
             if collectionDetect(pieceX,scanY) != False:
                 #print("hit")
                 break
-            plotCandidate(pieceX,scanY)
+            #plotCandidate(pieceX,scanY)
             candidateArray.append([pieceX,scanY])
         # down direction
         for scanY in range(pieceY+1,10,1):
@@ -380,7 +378,7 @@ def findRoads(piece):
             if collectionDetect(pieceX,scanY) != False:
                 #print("hit")
                 break
-            plotCandidate(pieceX,scanY)
+            #plotCandidate(pieceX,scanY)
             candidateArray.append([pieceX,scanY])
         # left direction
         for scanX in range(pieceX-1,-1,-1):
@@ -389,7 +387,7 @@ def findRoads(piece):
             if collectionDetect(scanX,pieceY) != False:
                 #print("hit")
                 break
-            plotCandidate(scanX,pieceY)
+            #plotCandidate(scanX,pieceY)
             candidateArray.append([scanX,pieceY])
         # right direction
         for scanX in range(pieceX+1,9,1):
@@ -397,18 +395,18 @@ def findRoads(piece):
             if collectionDetect(scanX,pieceY) != False:
                 #print("hit")
                 break
-            plotCandidate(scanX,pieceY)
+            #plotCandidate(scanX,pieceY)
             candidateArray.append([scanX,pieceY])
     #########################################
     if piece[0] == '砲' or piece[0] == '炮' :
-        print (piece[1])
+        #print (piece[1])
         # up direction
         for scanY in range(pieceY-1,-1,-1):
             #print ("▲",scanY)
             if collectionDetect(pieceX,scanY) != False:
                 #print("hit")
                 break
-            plotCandidate(pieceX,scanY)
+            #plotCandidate(pieceX,scanY)
             candidateArray.append([pieceX,scanY])
         # down direction
         for scanY in range(pieceY+1,10,1):
@@ -416,7 +414,7 @@ def findRoads(piece):
             if collectionDetect(pieceX,scanY) != False:
                 #print("hit")
                 break
-            plotCandidate(pieceX,scanY)
+            #plotCandidate(pieceX,scanY)
             candidateArray.append([pieceX,scanY])
         # left direction
         for scanX in range(pieceX-1,-1,-1):
@@ -425,7 +423,7 @@ def findRoads(piece):
             if collectionDetect(scanX,pieceY) != False:
                 #print("hit")
                 break
-            plotCandidate(scanX,pieceY)
+            #plotCandidate(scanX,pieceY)
             candidateArray.append([scanX,pieceY])
         # right direction
         for scanX in range(pieceX+1,9,1):
@@ -433,7 +431,7 @@ def findRoads(piece):
             if collectionDetect(scanX,pieceY) != False:
                 #print("hit")
                 break
-            plotCandidate(scanX,pieceY)
+            #plotCandidate(scanX,pieceY)
             candidateArray.append([scanX,pieceY])
     return candidateArray
 
@@ -449,50 +447,50 @@ def findAttacks(piece):
             enemySideHit = collectionDetectRed(pieceX,pieceY-1)
             mySideHit = collectionDetectBlack(pieceX,pieceY-1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX,pieceY-1)
+                #plotAttack(pieceX,pieceY-1)
                 candidateArray.append([pieceX,pieceY-1])
         if pieceY+1 <=2:
             enemySideHit = collectionDetectRed(pieceX,pieceY+1)
             mySideHit = collectionDetectBlack(pieceX,pieceY+1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX,pieceY+1)
+                #plotAttack(pieceX,pieceY+1)
                 candidateArray.append([pieceX,pieceY+1])
         if pieceX-1 >=3:
             enemySideHit = collectionDetectRed(pieceX-1,pieceY)
             mySideHit = collectionDetectBlack(pieceX-1,pieceY)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+1,pieceY)
+                #plotAttack(pieceX+1,pieceY)
                 candidateArray.append([pieceX-1,pieceY])
         if pieceX+1 <=5:
             enemySideHit = collectionDetectRed(pieceX+1,pieceY)
             mySideHit = collectionDetectBlack(pieceX+1,pieceY)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+1,pieceY)
+                #plotAttack(pieceX+1,pieceY)
                 candidateArray.append([pieceX+1,pieceY])
     if piece[0] == '帥':
         if pieceY-1 >=7:
             enemySideHit = collectionDetectBlack(pieceX,pieceY-1)
             mySideHit = collectionDetectRed(pieceX,pieceY-1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX,pieceY-1)
+                #plotAttack(pieceX,pieceY-1)
                 candidateArray.append([pieceX,pieceY-1])
         if pieceY+1 <=9:
             enemySideHit = collectionDetectBlack(pieceX,pieceY+1)
             mySideHit = collectionDetectRed(pieceX,pieceY+1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX,pieceY+1)
+                #plotAttack(pieceX,pieceY+1)
                 candidateArray.append([pieceX,pieceY+1])
         if pieceX-1 >=3:
             enemySideHit = collectionDetectBlack(pieceX-1,pieceY)
             mySideHit = collectionDetectRed(pieceX-1,pieceY)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-1,pieceY)
+                #plotAttack(pieceX-1,pieceY)
                 candidateArray.append([pieceX-1,pieceY])
         if pieceX+1 <=5:
             enemySideHit = collectionDetectBlack(pieceX+1,pieceY)
             mySideHit = collectionDetectRed(pieceX+1,pieceY)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+1,pieceY)
+                #plotAttack(pieceX+1,pieceY)
                 candidateArray.append([pieceX+1,pieceY])
     ####################
     if piece[0] == '士':
@@ -500,50 +498,50 @@ def findAttacks(piece):
             enemySideHit = collectionDetectRed(pieceX-1,pieceY-1)
             mySideHit = collectionDetectBlack(pieceX-1,pieceY-1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-1,pieceY-1)
+                #plotAttack(pieceX-1,pieceY-1)
                 candidateArray.append([pieceX-1,pieceY-1])
         if pieceX-1 >=3 and pieceY+1 <=2:
             enemySideHit = collectionDetectRed(pieceX-1,pieceY+1)
             mySideHit = collectionDetectBlack(pieceX-1,pieceY+1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-1,pieceY+1)
+                #plotAttack(pieceX-1,pieceY+1)
                 candidateArray.append([pieceX-1,pieceY+1])
         if pieceX+1 <=5 and pieceY-1 >=0:
             enemySideHit = collectionDetectRed(pieceX+1,pieceY-1)
             mySideHit = collectionDetectBlack(pieceX+1,pieceY-1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+1,pieceY-1)
+                #plotAttack(pieceX+1,pieceY-1)
                 candidateArray.append([pieceX+1,pieceY-1])
         if pieceX+1 <=5 and pieceY+1 <=2:
             enemySideHit = collectionDetectRed(pieceX+1,pieceY+1)
             mySideHit = collectionDetectBlack(pieceX+1,pieceY+1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+1,pieceY+1)
+                #plotAttack(pieceX+1,pieceY+1)
                 candidateArray.append([pieceX+1,pieceY+1])
     if piece[0] == '仕':
         if pieceX-1 >=3 and pieceY-1 >=7:
             enemySideHit = collectionDetectBlack(pieceX-1,pieceY-1)
             mySideHit = collectionDetectRed(pieceX-1,pieceY-1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-1,pieceY-1)
+                #plotAttack(pieceX-1,pieceY-1)
                 candidateArray.append([pieceX-1,pieceY-1])
         if pieceX-1 >=3 and pieceY+1 <=9:
             enemySideHit = collectionDetectBlack(pieceX-1,pieceY+1)
             mySideHit = collectionDetectRed(pieceX-1,pieceY+1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-1,pieceY+1)
+                #plotAttack(pieceX-1,pieceY+1)
                 candidateArray.append([pieceX-1,pieceY+1])
         if pieceX+1 <=5 and pieceY-1 >=7:
             enemySideHit = collectionDetectBlack(pieceX+1,pieceY-1)
             mySideHit = collectionDetectRed(pieceX+1,pieceY-1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+1,pieceY-1)
+                #plotAttack(pieceX+1,pieceY-1)
                 candidateArray.append([pieceX+1,pieceY-1])
         if pieceX+1 <=5 and pieceY+1 <=9:
             enemySideHit = collectionDetectBlack(pieceX+1,pieceY+1)
             mySideHit = collectionDetectRed(pieceX+1,pieceY+1)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+1,pieceY+1)
+                #plotAttack(pieceX+1,pieceY+1)
                 candidateArray.append([pieceX+1,pieceY+1])
     ####################
     if piece[0] == '象':
@@ -551,50 +549,50 @@ def findAttacks(piece):
             enemySideHit = collectionDetectRed(pieceX-2,pieceY-2)
             mySideHit = collectionDetectBlack(pieceX-2,pieceY-2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-2,pieceY-2)
+                #plotAttack(pieceX-2,pieceY-2)
                 candidateArray.append([pieceX-2,pieceY-2])
         if pieceX-2 >=0 and pieceY+2 <= 4 and not collectionDetect(pieceX-1,pieceY+1):
             enemySideHit = collectionDetectRed(pieceX-2,pieceY+2)
             mySideHit = collectionDetectBlack(pieceX-2,pieceY+2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-2,pieceY+2)
+                #plotAttack(pieceX-2,pieceY+2)
                 candidateArray.append([pieceX-2,pieceY+2])
         if pieceX+2 <=8 and pieceY-2 >=0 and not collectionDetect(pieceX+1,pieceY-1):
             enemySideHit = collectionDetectRed(pieceX+2,pieceY-2)
             mySideHit = collectionDetectBlack(pieceX+2,pieceY-2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+2,pieceY-2)
+                #plotAttack(pieceX+2,pieceY-2)
                 candidateArray.append([pieceX+2,pieceY-2])
         if pieceX+2 <=8 and pieceY+2 <= 4 and not collectionDetect(pieceX+1,pieceY+1):
             enemySideHit = collectionDetectRed(pieceX+2,pieceY+2)
             mySideHit = collectionDetectBlack(pieceX+2,pieceY+2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+2,pieceY+2)
+                #plotAttack(pieceX+2,pieceY+2)
                 candidateArray.append([pieceX+2,pieceY+2])
     if piece[0] == '相':
         if pieceX-2 >=0 and pieceY-2 >=5 and not collectionDetect(pieceX-1,pieceY-1):
             enemySideHit = collectionDetectBlack(pieceX-2,pieceY-2)
             mySideHit = collectionDetectRed(pieceX-2,pieceY-2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-2,pieceY-2)
+                #plotAttack(pieceX-2,pieceY-2)
                 candidateArray.append([pieceX-2,pieceY-2])
         if pieceX-2 >=0 and pieceY+2 <= 9 and not collectionDetect(pieceX-1,pieceY+1):
             enemySideHit = collectionDetectBlack(pieceX-2,pieceY+2)
             mySideHit = collectionDetectRed(pieceX-2,pieceY+2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX-2,pieceY+2)
+                #plotAttack(pieceX-2,pieceY+2)
                 candidateArray.append([pieceX-2,pieceY+2])
         if pieceX+2 <=8 and pieceY-2 >=5 and not collectionDetect(pieceX+1,pieceY-1):
             enemySideHit = collectionDetectBlack(pieceX+2,pieceY-2)
             mySideHit = collectionDetectRed(pieceX+2,pieceY-2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+2,pieceY-2)
+                #plotAttack(pieceX+2,pieceY-2)
                 candidateArray.append([pieceX+2,pieceY-2])
         if pieceX+2 <=8 and pieceY+2 <= 9 and not collectionDetect(pieceX+1,pieceY+1):
             enemySideHit = collectionDetectBlack(pieceX+2,pieceY+2)
             mySideHit = collectionDetectRed(pieceX+2,pieceY+2)
             if enemySideHit and not mySideHit:
-                plotAttack(pieceX+2,pieceY+2)
+                #plotAttack(pieceX+2,pieceY+2)
                 candidateArray.append([pieceX+2,pieceY+2])
     ####################
     if piece[0] == '卒':
@@ -603,26 +601,26 @@ def findAttacks(piece):
                 enemySideHit = collectionDetectRed(pieceX,pieceY+1)
                 mySideHit = collectionDetectBlack(pieceX,pieceY+1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX,pieceY+1)
+                    #plotAttack(pieceX,pieceY+1)
                     candidateArray.append([pieceX,pieceY+1])
         else:
             if pieceY+1 <= 9 and collectionDetect(pieceX,pieceY+1):
                 enemySideHit = collectionDetectRed(pieceX,pieceY+1)
                 mySideHit = collectionDetectBlack(pieceX,pieceY+1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX,pieceY+1)
+                    #plotAttack(pieceX,pieceY+1)
                     candidateArray.append([pieceX,pieceY+1])
             if pieceX-1 >=0 and collectionDetect(pieceX-1,pieceY):
                 enemySideHit = collectionDetectRed(pieceX-1,pieceY)
                 mySideHit = collectionDetectBlack(pieceX-1,pieceY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX-1,pieceY)
+                    #plotAttack(pieceX-1,pieceY)
                     candidateArray.append([pieceX-1,pieceY])
             if pieceX+1 <=8 and collectionDetect(pieceX+1,pieceY):
                 enemySideHit = collectionDetectRed(pieceX+1,pieceY)
                 mySideHit = collectionDetectBlack(pieceX+1,pieceY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX+1,pieceY)
+                    #plotAttack(pieceX+1,pieceY)
                     candidateArray.append([pieceX+1,pieceY])
     if piece[0] == '兵':
         if pieceY >=5:
@@ -630,26 +628,26 @@ def findAttacks(piece):
                 enemySideHit = collectionDetectBlack(pieceX,pieceY-1)
                 mySideHit = collectionDetectRed(pieceX,pieceY-1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX,pieceY-1)
+                    #plotAttack(pieceX,pieceY-1)
                     candidateArray.append([pieceX,pieceY-1])
         else:
             if pieceY-1 >=0 and collectionDetect(pieceX,pieceY-1):
                 enemySideHit = collectionDetectBlack(pieceX,pieceY-1)
                 mySideHit = collectionDetectRed(pieceX,pieceY-1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX,pieceY-1)
+                    #plotAttack(pieceX,pieceY-1)
                     candidateArray.append([pieceX,pieceY-1])
             if pieceX-1 >=0 and collectionDetect(pieceX-1,pieceY):
                 enemySideHit = collectionDetectBlack(pieceX-1,pieceY)
                 mySideHit = collectionDetectRed(pieceX-1,pieceY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX-1,pieceY)
+                    #plotAttack(pieceX-1,pieceY)
                     candidateArray.append([pieceX-1,pieceY])
             if pieceX+1 <=8 and collectionDetect(pieceX+1,pieceY):
                 enemySideHit = collectionDetectBlack(pieceX+1,pieceY)
                 mySideHit = collectionDetectRed(pieceX+1,pieceY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX+1,pieceY)
+                    #plotAttack(pieceX+1,pieceY)
                     candidateArray.append([pieceX+1,pieceY])
     #########################################
     if piece[0] == '馬' or piece[0] == '傌' :
@@ -663,7 +661,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX-1,pieceY-2)
                     mySideHit = collectionDetectRed(pieceX-1,pieceY-2)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX-1,pieceY-2)
+                    #plotAttack(pieceX-1,pieceY-2)
                     candidateArray.append([pieceX-1,pieceY-2])
         if pieceY-2 >= 0 and pieceX+1 < 9 and not collectionDetect(pieceX,pieceY-1):
             if collectionDetect(pieceX+1,pieceY-2):
@@ -674,7 +672,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX+1,pieceY-2)
                     mySideHit = collectionDetectRed(pieceX+1,pieceY-2)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX+1,pieceY-2)
+                    #plotAttack(pieceX+1,pieceY-2)
                     candidateArray.append([pieceX+1,pieceY-2])
         #
         if pieceY+2 < 10 and pieceX-1 >= 0 and not collectionDetect(pieceX,pieceY+1):
@@ -686,7 +684,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX-1,pieceY+2)
                     mySideHit = collectionDetectRed(pieceX-1,pieceY+2)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX-1,pieceY+2)
+                    #plotAttack(pieceX-1,pieceY+2)
                     candidateArray.append([pieceX-1,pieceY+2])
         if pieceY+2 < 10 and pieceX+1 < 9 and not collectionDetect(pieceX,pieceY+1):
             if collectionDetect(pieceX+1,pieceY+2):
@@ -697,7 +695,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX+1,pieceY+2)
                     mySideHit = collectionDetectRed(pieceX+1,pieceY+2)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX+1,pieceY+2)
+                    #plotAttack(pieceX+1,pieceY+2)
                     candidateArray.append([pieceX+1,pieceY+2])
         #
         if pieceX-2 >= 0 and pieceY-1 >= 0 and not collectionDetect(pieceX-1,pieceY):
@@ -709,7 +707,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX-2,pieceY-1)
                     mySideHit = collectionDetectRed(pieceX-2,pieceY-1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX-2,pieceY-1)
+                    #plotAttack(pieceX-2,pieceY-1)
                     candidateArray.append([pieceX-2,pieceY-1])
         if pieceX-2 >= 0 and pieceY+1 < 10 and not collectionDetect(pieceX-1,pieceY):
             if collectionDetect(pieceX-2,pieceY+1):
@@ -720,7 +718,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX-2,pieceY+1)
                     mySideHit = collectionDetectRed(pieceX-2,pieceY+1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX-2,pieceY+1)
+                    #plotAttack(pieceX-2,pieceY+1)
                     candidateArray.append([pieceX-2,pieceY+1])
         #
         if pieceX+2 < 9 and pieceY-1 >= 0 and not collectionDetect(pieceX+1,pieceY):
@@ -732,7 +730,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX+2,pieceY-1)
                     mySideHit = collectionDetectRed(pieceX+2,pieceY-1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX+2,pieceY-1)
+                    #plotAttack(pieceX+2,pieceY-1)
                     candidateArray.append([pieceX+2,pieceY-1])
         if pieceX+2 < 9 and pieceY+1 < 10 and not collectionDetect(pieceX+1,pieceY):
             if collectionDetect(pieceX+2,pieceY+1):
@@ -743,7 +741,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX+2,pieceY+1)
                     mySideHit = collectionDetectRed(pieceX+2,pieceY+1)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX+2,pieceY+1)
+                    #plotAttack(pieceX+2,pieceY+1)
                     candidateArray.append([pieceX+2,pieceY+1])
     #########################################
     if piece[0] == '車' or piece[0] == '俥' :
@@ -757,7 +755,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX,scanY)
                     mySideHit = collectionDetectRed(pieceX,scanY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX,scanY)
+                    #plotAttack(pieceX,scanY)
                     candidateArray.append([pieceX,scanY])
                 break
         # down direction
@@ -770,7 +768,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(pieceX,scanY)
                     mySideHit = collectionDetectRed(pieceX,scanY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(pieceX,scanY)
+                    #plotAttack(pieceX,scanY)
                     candidateArray.append([pieceX,scanY])
                 break
         # left direction
@@ -784,7 +782,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(scanX,pieceY)
                     mySideHit = collectionDetectRed(scanX,pieceY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(scanX,pieceY)
+                    #plotAttack(scanX,pieceY)
                     candidateArray.append([scanX,pieceY])
                 break
         # right direction
@@ -797,7 +795,7 @@ def findAttacks(piece):
                     enemySideHit = collectionDetectBlack(scanX,pieceY)
                     mySideHit = collectionDetectRed(scanX,pieceY)
                 if enemySideHit and not mySideHit:
-                    plotAttack(scanX,pieceY)
+                    #plotAttack(scanX,pieceY)
                     candidateArray.append([scanX,pieceY])
                 break
     #########################################
@@ -816,7 +814,7 @@ def findAttacks(piece):
                     if mySideHit:
                         break
                     if enemySideHit:
-                        plotAttack(pieceX,scanY)
+                        #plotAttack(pieceX,scanY)
                         candidateArray.append([pieceX,scanY])
                         break
                 break
@@ -834,7 +832,7 @@ def findAttacks(piece):
                     if mySideHit:
                         break
                     if enemySideHit:
-                        plotAttack(pieceX,scanY)
+                        #plotAttack(pieceX,scanY)
                         candidateArray.append([pieceX,scanY])
                         break
                 break
@@ -854,7 +852,7 @@ def findAttacks(piece):
                     if mySideHit:
                         break
                     if enemySideHit:
-                        plotAttack(scanX,pieceY)
+                        #plotAttack(scanX,pieceY)
                         candidateArray.append([scanX,pieceY])
                         break
                 break
@@ -872,7 +870,7 @@ def findAttacks(piece):
                     if mySideHit:
                         break
                     if enemySideHit:
-                        plotAttack(scanX,pieceY)
+                        #plotAttack(scanX,pieceY)
                         candidateArray.append([scanX,pieceY])
                         break
                 break
@@ -880,30 +878,112 @@ def findAttacks(piece):
 
 # find both moving and attack
 # return : [MOVE COORDINATE ARRAY,ATTACK COORDINATE ARRAY]
-def checkPath():
+def checkPath(x,y):
     result=[]
     for piece in piecesBlack:
-        if piece[1][0] == cursorX and piece[1][1] == cursorY:
+        if piece[1][0] == x and piece[1][1] == y:
             result.append(findRoads(piece))
             result.append(findAttacks(piece))
-            print (piece[0])
+            #print (piece[0])
     for piece in piecesRed:
-        if piece[1][0] == cursorX and piece[1][1] == cursorY:
+        if piece[1][0] == x and piece[1][1] == y:
             result.append(findRoads(piece))
             result.append(findAttacks(piece))
-            print (piece[0])
+            #print (piece[0])
     return result
+
+# variables for keep the postion of cursor
+cursorX = 0
+cursorY = 0
 
 pieceTake = -1
 loopMain=True
 result=[]
+side='red'
+randomSwitch = 'off'
 # MAIN LOOP
 while loopMain:
+    if randomSwitch == 'on':
+        if piecesRed == [] or piecesBlack == []:
+            randomSwitcj = 'off'
+            break
+        result = []
+        if side == 'red':
+            loopCount=0
+            while(result == [] or result[0] == [] or loopCount < 100):
+                loopCount+=1
+                randPiece = random.choice(piecesRed)
+                randCursorX = randPiece[1][0]
+                randCursorY = randPiece[1][1]
+                result=checkPath(randCursorX,randCursorY)
+            #plotCursor(randCursorX,randCursorY)
+            side='black'
+        else:
+            loopCount=0
+            while(result == [] or result[0] == [] or loopCount < 100):
+                loopCount+=1
+                randPiece = random.choice(piecesBlack)
+                randCursorX = randPiece[1][0]
+                randCursorY = randPiece[1][1]
+                result=checkPath(randCursorX,randCursorY)
+            #plotCursor(randCursorX,randCursorY)
+            side='red'
+        if len(result):
+             if len(result[0]):
+                 for i in result[0]:
+                     plotCandidate(i[0],i[1])
+             if len(result[1]):
+                 for i in result[1]:
+                     plotAttack(i[0],i[1])
+        plotCursor(randCursorX,randCursorY)
+        print(result)
+        pygame.display.update()
+        time.sleep(1)
+        # eat
+        if len(result) > 1 and len(result[1]) > 0:
+            randXY = random.choice(result[1])
+            pieceTake = randPiece
+            movePiece = [pieceTake[0],(randXY[0],randXY[1]),pieceTake[2]]
+            # move
+            if pieceTake in piecesBlack:
+                piecesBlack.remove(pieceTake)
+                piecesBlack.append(movePiece)
+            if pieceTake in piecesRed:
+                piecesRed.remove(pieceTake)
+                piecesRed.append(movePiece)
+            # eat
+            for i in piecesBlack:
+                if i[1] == (randXY[0],randXY[1]) and i != movePiece:
+                    piecesBlack.remove(i)
+            for i in piecesRed:
+                if i[1] == (randXY[0],randXY[1]) and i != movePiece:
+                    piecesRed.remove(i)
+        else:
+            # move
+            randXY = random.choice(result[0])
+            pieceTake = randPiece
+            movePiece = [pieceTake[0],(randXY[0],randXY[1]),pieceTake[2]]
+            if pieceTake in piecesBlack:
+                piecesBlack.remove(pieceTake)
+                piecesBlack.append(movePiece)
+            if pieceTake in piecesRed:
+                piecesRed.remove(pieceTake)
+                piecesRed.append(movePiece)
+        DISPLAYSURF.fill((0,0,0))
+        plotBoard()           
+        pygame.display.update()
+        #time.sleep(1)
     for event in pygame.event.get():
         if event.type == QUIT:
             loopMain=False
         if event.type == pygame.KEYDOWN:
             DISPLAYSURF.fill((0,0,0))
+            if event.key == pygame.K_r:
+                if randomSwitch == 'off':
+                    randomSwitch = 'on'
+                else:
+                    randomSwitch = 'off'
+                    result = []
             if event.key == pygame.K_UP:
                 if cursorY > 0:
                     cursorY-=1
@@ -927,7 +1007,7 @@ while loopMain:
                     # run rules and return list
                     # result[0] : move list
                     # result[1] : attack list
-                    result=checkPath()
+                    result=checkPath(cursorX,cursorY)
                     for piece in piecesBlack:
                         if piece[1][0] == cursorX and piece[1][1] == cursorY:
                             pieceTake = piece
@@ -971,8 +1051,8 @@ while loopMain:
                                     piecesRed.remove(i)
                     pieceTake = -1
                     result = []
-                    print(piecesBlack)
-                    print(piecesRed)
+                    #print(piecesBlack)
+                    #print(piecesRed)
             elif event.key == pygame.K_ESCAPE:
                 pieceTake = -1
                 result = []
@@ -985,7 +1065,7 @@ while loopMain:
                 if len(result[1]):
                     for i in result[1]:
                         plotAttack(i[0],i[1])
-            plotCursor()
+            plotCursor(cursorX,cursorY)
             
     pygame.display.update()
 # MAIN LOOP END
