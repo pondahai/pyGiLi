@@ -1073,6 +1073,15 @@ while loopMain:
 #for x in range(0,200):
 #    print (x+0x2500,chr(x+0x2500),"xx") 
 
+pygame.event.clear()
+while True:
+    event = pygame.event.wait()
+    if event.type == QUIT:
+        pygame.quit()
+        sys.exit()
+    elif event.type == KEYDOWN:
+        break
+pygame.quit()
 
 print("╔═╤═╤═╤═╤═╤═╤═╤═╗")
 print("║  │  │  │╲│╱│  │  │  ║")
