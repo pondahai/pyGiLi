@@ -664,6 +664,8 @@ def make_ai_move():
 
 
 # --- Main Game Loop ---
+plotBoard()
+plotCursor(cursorX, cursorY)
 loopMain = True
 while loopMain:
 
